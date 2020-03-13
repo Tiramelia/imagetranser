@@ -25,6 +25,8 @@ usage: imagetranser merge [-h] file
 positional arguments:
   file        Path to the image file.
 ```
+example:
+![alt text](https://raw.githubusercontent.com/Tiramelia/imagetranser/master/examples/merge.png)
 ### frame
 ```
 usage: imagetranser frame [-h] [-w [width]] file
@@ -37,6 +39,8 @@ optional arguments:
   -w [width], --width [width]
                         Width of the frame.
 ```
+example:
+![alt text](https://raw.githubusercontent.com/Tiramelia/imagetranser/master/examples/frame.png)
 ### color
 ```
 usage: imagetranser color [-h] [-t [threshold]] [-c [colorhex]] file
@@ -51,3 +55,5 @@ optional arguments:
   -c [colorhex], --colorhex [colorhex]
                         Color hex e.g ff00ff (without #)
 ```
+example:
+![alt text](https://raw.githubusercontent.com/Tiramelia/imagetranser/master/examples/color.png)
