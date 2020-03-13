@@ -56,7 +56,7 @@ def pickCommand(img, args):
     transformFunction = switch.get(args.command)
     result = transformFunction(img, args)
     result.save('transed.png')
-    print('Saved as transed.png')
+    print('Saved as transed.png') 
 
 def colorhex(value):
     if not re.match('[\da-fA-F]{6}', value):
@@ -71,7 +71,7 @@ def main():
     pickCommand(img, args)
 
 parser = argparse.ArgumentParser(description="Adding trans flag to images in various ways.", prog="imagetranser")
-subparser = parser.add_subparsers(dest='command', help='For more help type  imagetranser.py command -h')
+subparser = parser.add_subparsers(dest='command', help='For more help type  imagetranser.py command -h', required=True)
 merge = subparser.add_parser('merge', help="Merges image with a transgender flag.")
 frame = subparser.add_parser('frame', help="Adds a transgender flag frame.")
 color = subparser.add_parser('color', help="Change a color within a specified range and turn it into a transgender flag (used mostly for changing the background).")
@@ -80,8 +80,8 @@ frame.add_argument("filepath", type=str, help="Path to the image file.", metavar
 color.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
 merge.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
 
-frame.add_argument('-w', "--width", metavar="width", nargs='?', type=int, default=10, help="Specifies width of the frame.")
-color.add_argument('-t', '--threshold', type=int, nargs='?', metavar="threshold", default=0, help="Specifies a color threshold.")
-color.add_argument('-c', '--colorhex', metavar="colorhex", nargs='?', type=colorhex, default="ffffff", help="Specifies color e.g ff00ff (without #)")
+frame.add_argument('-w', "--width", metavar="width", nargs='?', type=int, default=10, help="Width of the frame.")
+color.add_argument('-t', '--threshold', type=int, nargs='?', metavar="threshold", default=0, help="Color threshold.")
+color.add_argument('-c', '--colorhex', metavar="colorhex", nargs='?', type=colorhex, default="ffffff", help="Color hex e.g ff00ff (without #)")
 
 main()
