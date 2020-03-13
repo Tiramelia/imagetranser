@@ -15,7 +15,7 @@ def imgframe(img, frameWidth):
     return transed
 
 def createTrans(size, mode='RGB'):
-    BAR_SIZE = size[1]/5 #probably wont work
+    BAR_SIZE = size[1]/5
     transflag = Image.new(mode, size)
     drawer = ImageDraw.Draw(transflag)
     drawer.rectangle([(0,0), size], "#32d7d0")
@@ -48,8 +48,7 @@ def pickCommand(img):
         transed = imgmerge(img)
         transed.save('transmerged.png')
     elif args.command == 'frame':
-        # doesn't work fix it.
-        transed = imgframe(img, args.framewidth)
+        transed = imgframe(img, args.width)
         transed.save('transframed.png')
     elif args.command == 'color':
         if not re.match('[\da-fA-F]{6}', args.colorhex):
@@ -64,14 +63,14 @@ merge = subparser.add_parser('merge', help="Merges image with a transgender flag
 frame = subparser.add_parser('frame', help="Adds a transgender flag frame.")
 color = subparser.add_parser('color', help="Change a color within a specified range and turn it into a transgender flag (used mostly for changing the background).")
 
-# default doesn't work
-frame.add_argument("frameWidth", metavar="width", nargs='?', type=int, default=10, help="Specifies width of the frame.")
-# fix color without threshold
-color.add_argument('threshold', type=int, nargs='?', metavar="threshold", default=0, help="Specifies a color threshold.")
-color.add_argument('colorhex', metavar="colorhex", nargs='?', type=str, default="ffffff", help="Specifies color e.g ff00ff (without #)")
+frame.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
+color.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
+merge.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
 
-parser.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
+frame.add_argument('-w', "--width", metavar="width", nargs='?', type=int, default=10, help="Specifies width of the frame.")
+color.add_argument('-t', '--threshold', type=int, nargs='?', metavar="threshold", default=0, help="Specifies a color threshold.")
+color.add_argument('-c', '--colorhex', metavar="colorhex", nargs='?', type=str, default="ffffff", help="Specifies color e.g ff00ff (without #)")
+
 args = parser.parse_args()
-
 img = Image.open(args.filepath)
 pickCommand(img)
