@@ -1,8 +1,8 @@
 #!/bin/env python3
 from PIL import Image, ImageDraw
-import sys
 import argparse
 import re
+from os import path
 
 
 def imgmerge(img, args):
@@ -124,10 +124,14 @@ def pickCommand():
     transformFunction = switch.get(args.command)
     result = transformFunction(img, args)
     try:
-        result.save('transed.png')
+        name, extension = path.splitext(args.filepath)
+        name = path.basename(name)
+        name = name + '-transed' + extension
+        result.save(name)
+        print('Saved as', name)
     except:
         print('File can not be saved.')
-    print('Saved as transed.png') 
+         
 
 def colorhex(value):
     """Function for checking if passed argument is in correct format.
