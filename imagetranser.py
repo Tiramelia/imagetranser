@@ -97,8 +97,25 @@ def hexToRGB(hex):
 def pickCommand():
     """Takes the passed arguments and choses a function to call.
     """
+    parser = argparse.ArgumentParser(description="Adding trans flag to images in various ways.", prog="imagetranser")
+    subparser = parser.add_subparsers(dest='command', help='For more help type  imagetranser.py command -h',    required=True)
+    merge = subparser.add_parser('merge', help="Merges image with a transgender flag.")
+    frame = subparser.add_parser('frame', help="Adds a transgender flag frame.")
+    color = subparser.add_parser('color', help="Change a color within a specified range and turn it into a transgender  flag (used mostly for changing the background).")
+
+    frame.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
+    color.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
+    merge.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
+
+    frame.add_argument('-w', "--width", metavar="width", nargs='?', type=int, default=10, help="Width of the frame.")
+    color.add_argument('-t', '--threshold', type=int, nargs='?', metavar="threshold", default=0, help="Color threshold. ")
+    color.add_argument('-c', '--colorhex', metavar="colorhex", nargs='?', type=colorhex, default="ffffff", help="Color  hex e.g ff00ff (without #)")
+
     args = parser.parse_args()
-    img = Image.open(args.filepath)
+    try:
+        img = Image.open(args.filepath)
+    except:
+        print('Invalid file path.')
     switch = {
         'merge' : imgmerge,
         'frame' : imgframe,
@@ -106,7 +123,10 @@ def pickCommand():
     }
     transformFunction = switch.get(args.command)
     result = transformFunction(img, args)
-    result.save('transed.png')
+    try:
+        result.save('transed.png')
+    except:
+        print('File can not be saved.')
     print('Saved as transed.png') 
 
 def colorhex(value):
@@ -117,19 +137,5 @@ def colorhex(value):
         return None
     hexToRGB(value)
     return value
-
-parser = argparse.ArgumentParser(description="Adding trans flag to images in various ways.", prog="imagetranser")
-subparser = parser.add_subparsers(dest='command', help='For more help type  imagetranser.py command -h', required=True)
-merge = subparser.add_parser('merge', help="Merges image with a transgender flag.")
-frame = subparser.add_parser('frame', help="Adds a transgender flag frame.")
-color = subparser.add_parser('color', help="Change a color within a specified range and turn it into a transgender flag (used mostly for changing the background).")
-
-frame.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
-color.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
-merge.add_argument("filepath", type=str, help="Path to the image file.", metavar="file")
-
-frame.add_argument('-w', "--width", metavar="width", nargs='?', type=int, default=10, help="Width of the frame.")
-color.add_argument('-t', '--threshold', type=int, nargs='?', metavar="threshold", default=0, help="Color threshold.")
-color.add_argument('-c', '--colorhex', metavar="colorhex", nargs='?', type=colorhex, default="ffffff", help="Color hex e.g ff00ff (without #)")
 
 pickCommand()
